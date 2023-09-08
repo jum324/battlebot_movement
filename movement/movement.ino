@@ -52,7 +52,6 @@ void setup() {
   pinMode(RxPin, INPUT);
 
   Serial.begin(9600);
-
 }
 
 void loop() {
@@ -69,7 +68,6 @@ void loop() {
   rotation(RxVal);
 
   motorprint();                 //adjust motor speed
-  
 }
 
 /**
