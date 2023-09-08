@@ -92,7 +92,10 @@ void horizontal_Translation(int lx){
  * @param rx Right joystickhorizontal value
  */
 void rotation(int rx){
-
+  TmotorSpeed += rx*255/(511-100);
+  LmotorSpeed += rx*255/(511-100);
+  BmotorSpeed -= rx*255/(511-100);
+  RmotorSpeed -= rx*255/(511-100);
 }
 
 void motorprint(){
