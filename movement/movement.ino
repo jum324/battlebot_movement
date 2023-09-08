@@ -159,3 +159,23 @@ void Lmotor(){
     digitalWrite(LMotorDir2, LOW);
   }
 }
+
+/**
+ * @brief Adjust bottom motor speed and direction based on global variable BmotorSpeed
+ * 
+ */
+void Bmotor(){
+  analogWrite(BSpeedPin, abs(BmotorSpeed));
+  if(BmotorSpeed > 0){
+    digitalWrite(BMotorDir1, HIGH);
+    digitalWrite(BMotorDir2, LOW);
+  }
+  else if(BmotorSpeed < 0){
+    digitalWrite(BMotorDir1, LOW);
+    digitalWrite(BMotorDir2, HIGH);
+  }
+  else{
+    digitalWrite(BMotorDir1, LOW);
+    digitalWrite(BMotorDir2, LOW);
+  }
+}
