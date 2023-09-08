@@ -179,3 +179,23 @@ void Bmotor(){
     digitalWrite(BMotorDir2, LOW);
   }
 }
+
+/**
+ * @brief Adjust right motor speed and direction based on global variable RmotorSpeed
+ * 
+ */
+void Rmotor(){
+  analogWrite(RSpeedPin, abs(RmotorSpeed));
+  if(RmotorSpeed > 0){
+    digitalWrite(RMotorDir1, HIGH);
+    digitalWrite(RMotorDir2, LOW);
+  }
+  else if(RmotorSpeed < 0){
+    digitalWrite(RMotorDir1, LOW);
+    digitalWrite(RMotorDir2, HIGH);
+  }
+  else{
+    digitalWrite(RMotorDir1, LOW);
+    digitalWrite(RMotorDir2, LOW);
+  }
+}
