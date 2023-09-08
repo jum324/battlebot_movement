@@ -139,3 +139,23 @@ void Tmotor(){
     digitalWrite(TMotorDir2, LOW);
   }
 }
+
+/**
+ * @brief Adjust left motor speed and direction based on global variable LmotorSpeed
+ * 
+ */
+void Lmotor(){
+  analogWrite(LSpeedPin, abs(LmotorSpeed));
+  if(LmotorSpeed > 0){
+    digitalWrite(LMotorDir1, LOW);
+    digitalWrite(LMotorDir2, HIGH);
+  }
+  else if(LmotorSpeed < 0){
+    digitalWrite(LMotorDir1, HIGH);
+    digitalWrite(LMotorDir2, LOW);
+  }
+  else{
+    digitalWrite(LMotorDir1, LOW);
+    digitalWrite(LMotorDir2, LOW);
+  }
+}
