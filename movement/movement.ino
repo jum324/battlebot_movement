@@ -16,11 +16,11 @@
 #define LyPin A1 // left joystick (controls vertical translation)
 #define RxPin A2 // right joystick (controls rotation)
 
+int deadzone = 100; //joystick deadzone
+
 int LxVal;
 int LyVal;
 int RxVal;
-
-int bound = 100; //joystick deadzone
 
 int LmotorSpeed;
 int RmotorSpeed;
@@ -53,11 +53,16 @@ void setup() {
 
   Serial.begin(9600);
 
-
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  LxVal = analogRead(LxPin);
+  LyVal = analogRead(LyPin);
+  RxVal = analogRead(RxPin);
+
+  deadzone_Remove(LxVal);
+  deadzone_Remove(LyVal);
+  deadzone_Remove(RxVal);
 
 }
 
@@ -90,4 +95,22 @@ void rotation(int rx){
 
 void motorprint(){
 
+}
+
+/**
+ * @brief Converting joystick reading to range [-512, 511], then remove middle deadzone
+ * 
+ * @param val Joystick reading
+ */
+void deadzone_Remove(int val){
+  val -= 512;
+  if(val < -deadzone){
+    val += 100;
+  }
+  else if(val > deadzone){
+    val -= 100;
+  }
+  else{
+    val = 0;
+  }
 }
