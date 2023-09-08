@@ -105,10 +105,18 @@ void rotation(int rx){
 }
 
 void motorprint(){
-  Tmotor();
-  Lmotor();
-  Bmotor();
-  Rmotor();
+  if(!off){
+    Tmotor(TmotorSpeed);
+    Lmotor(LmotorSpeed);
+    Bmotor(BmotorSpeed);
+    Rmotor(RmotorSpeed);
+  }
+  else{
+    Tmotor(0);
+    Lmotor(0);
+    Bmotor(0);
+    Rmotor(0);
+  }
 }
 
 /**
@@ -130,21 +138,22 @@ void deadzone_Remove(int val){
 }
 
 /**
- * @brief Adjust top motor speed and direction based on global variable TmotorSpeed
+ * @brief Adjust top motor speed and direction based on param speed
  * 
+ * @param speed motor speed
  */
-void Tmotor(){
-  if(abs(TmotorSpeed) > 255){
+void Tmotor(int speed){
+  if(abs(speed) > 255){
     analogWrite(TSpeedPin, 255);
   }
   else{
-    analogWrite(TSpeedPin, abs(TmotorSpeed));
+    analogWrite(TSpeedPin, abs(speed));
   }
-  if(TmotorSpeed > 0){
+  if(speed > 0){
     digitalWrite(TMotorDir1, LOW);
     digitalWrite(TMotorDir2, HIGH);
   }
-  else if(TmotorSpeed < 0){
+  else if(speed < 0){
     digitalWrite(TMotorDir1, HIGH);
     digitalWrite(TMotorDir2, LOW);
   }
@@ -155,21 +164,22 @@ void Tmotor(){
 }
 
 /**
- * @brief Adjust left motor speed and direction based on global variable LmotorSpeed
+ * @brief Adjust left motor speed and direction based on param speed
  * 
+ * @param speed motor speed
  */
-void Lmotor(){
-  if(abs(LmotorSpeed) > 255){
+void Lmotor(int speed){
+  if(abs(speed) > 255){
     analogWrite(LSpeedPin, 255);
   }
   else{
-    analogWrite(LSpeedPin, abs(LmotorSpeed));
+    analogWrite(LSpeedPin, abs(speed));
   }
-  if(LmotorSpeed > 0){
+  if(speed > 0){
     digitalWrite(LMotorDir1, LOW);
     digitalWrite(LMotorDir2, HIGH);
   }
-  else if(LmotorSpeed < 0){
+  else if(speed < 0){
     digitalWrite(LMotorDir1, HIGH);
     digitalWrite(LMotorDir2, LOW);
   }
@@ -180,21 +190,22 @@ void Lmotor(){
 }
 
 /**
- * @brief Adjust bottom motor speed and direction based on global variable BmotorSpeed
+ * @brief Adjust bottom motor speed and direction based on param speed
  * 
+ * @param speed motor speed
  */
-void Bmotor(){
-  if(abs(BmotorSpeed) > 255){
+void Bmotor(int speed){
+  if(abs(speed) > 255){
     analogWrite(BSpeedPin, 255);
   }
   else{
-    analogWrite(BSpeedPin, abs(BmotorSpeed));
+    analogWrite(BSpeedPin, abs(speed));
   }
-  if(BmotorSpeed > 0){
+  if(speed > 0){
     digitalWrite(BMotorDir1, HIGH);
     digitalWrite(BMotorDir2, LOW);
   }
-  else if(BmotorSpeed < 0){
+  else if(speed < 0){
     digitalWrite(BMotorDir1, LOW);
     digitalWrite(BMotorDir2, HIGH);
   }
@@ -205,21 +216,22 @@ void Bmotor(){
 }
 
 /**
- * @brief Adjust right motor speed and direction based on global variable RmotorSpeed
+ * @brief Adjust right motor speed and direction based on param speed
  * 
+ * @param speed motor speed
  */
-void Rmotor(){
-  if(abs(RmotorSpeed) > 255){
+void Rmotor(int speed){
+  if(abs(speed) > 255){
     analogWrite(RSpeedPin, 255);
   }
   else{
-    analogWrite(RSpeedPin, abs(RmotorSpeed));
+    analogWrite(RSpeedPin, abs(speed));
   }
-  if(RmotorSpeed > 0){
+  if(speed > 0){
     digitalWrite(RMotorDir1, HIGH);
     digitalWrite(RMotorDir2, LOW);
   }
-  else if(RmotorSpeed < 0){
+  else if(speed < 0){
     digitalWrite(RMotorDir1, LOW);
     digitalWrite(RMotorDir2, HIGH);
   }
