@@ -64,6 +64,12 @@ void loop() {
   deadzone_Remove(LyVal);
   deadzone_Remove(RxVal);
 
+  vertical_Translation(LyVal);
+  horizontal_Translation(LxVal);
+  rotation(RxVal);
+
+  motorprint();
+  
 }
 
 /**
