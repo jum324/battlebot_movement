@@ -56,19 +56,19 @@ void setup() {
 }
 
 void loop() {
-  LxVal = analogRead(LxPin);
+  LxVal = analogRead(LxPin);    //reading joystick input
   LyVal = analogRead(LyPin);
   RxVal = analogRead(RxPin);
 
-  deadzone_Remove(LxVal);
+  deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
   deadzone_Remove(LyVal);
   deadzone_Remove(RxVal);
 
-  vertical_Translation(LyVal);
+  vertical_Translation(LyVal);  //calculate motor speed
   horizontal_Translation(LxVal);
   rotation(RxVal);
 
-  motorprint();
+  motorprint();                 //adjust motor speed
   
 }
 
