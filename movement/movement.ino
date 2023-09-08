@@ -61,14 +61,29 @@ void loop() {
 
 }
 
+/**
+ * @brief Controlling the speed and direction of the left and right wheels based on left joystick vertical displacement
+ * 
+ * @param ly Left joystick vertical value
+ */
 void vertical_Translation(int ly){
   
 }
 
-void horizontal_Translation(int ly){
+/**
+ * @brief Controlling the speed and direction of the front and back wheels based on left joystick horizontal displacement
+ * 
+ * @param lx Left joystick horizontal value
+ */
+void horizontal_Translation(int lx){
 
 }
 
+/**
+ * @brief Controlling the rotation of the robot based on right joystick horizontal displacement
+ * 
+ * @param rx Right joystickhorizontal value
+ */
 void rotation(int rx){
 
 }
