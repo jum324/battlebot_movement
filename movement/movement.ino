@@ -72,8 +72,8 @@ void loop() {
  * @param ly Left joystick vertical value
  */
 void vertical_Translation(int ly){
-  LmotorSpeed = ly*255/(511-100);
-  RmotorSpeed = ly*255/(511-100);
+  LmotorSpeed = ly*255/(511-deadzone);
+  RmotorSpeed = ly*255/(511-deadzone);
 }
 
 /**
@@ -82,8 +82,8 @@ void vertical_Translation(int ly){
  * @param lx Left joystick horizontal value
  */
 void horizontal_Translation(int lx){
-  TmotorSpeed = lx*255/(511-100);
-  BmotorSpeed = lx*255/(511-100);
+  TmotorSpeed = lx*255/(511-deadzone);
+  BmotorSpeed = lx*255/(511-deadzone);
 }
 
 /**
@@ -92,10 +92,10 @@ void horizontal_Translation(int lx){
  * @param rx Right joystickhorizontal value
  */
 void rotation(int rx){
-  TmotorSpeed += rx*255/(511-100);
-  LmotorSpeed += rx*255/(511-100);
-  BmotorSpeed -= rx*255/(511-100);
-  RmotorSpeed -= rx*255/(511-100);
+  TmotorSpeed += rx*255/(511-deadzone);
+  LmotorSpeed += rx*255/(511-deadzone);
+  BmotorSpeed -= rx*255/(511-deadzone);
+  RmotorSpeed -= rx*255/(511-deadzone);
 }
 
 void motorprint(){
@@ -110,12 +110,32 @@ void motorprint(){
 void deadzone_Remove(int val){
   val -= 512;
   if(val < -deadzone){
-    val += 100;
+    val += deadzone;
   }
   else if(val > deadzone){
-    val -= 100;
+    val -= deadzone;
   }
   else{
     val = 0;
+  }
+}
+
+/**
+ * @brief Adjust top motor speed and direction based on global variable TmotorSpeed
+ * 
+ */
+void Tmotor(){
+  analogWrite(TSpeedPin, abs(TmotorSpeed));
+  if(TmotorSpeed > 0){
+    digitalWrite(TMotorDir1, LOW);
+    digitalWrite(TMotorDir2, HIGH);
+  }
+  else if(TmotorSpeed < 0){
+    digitalWrite(TMotorDir1, HIGH);
+    digitalWrite(TMotorDir2, LOW);
+  }
+  else{
+    digitalWrite(TMotorDir1, LOW);
+    digitalWrite(TMotorDir2, LOW);
   }
 }
