@@ -99,7 +99,10 @@ void rotation(int rx){
 }
 
 void motorprint(){
-
+  Tmotor();
+  Lmotor();
+  Bmotor();
+  Rmotor();
 }
 
 /**
@@ -125,7 +128,12 @@ void deadzone_Remove(int val){
  * 
  */
 void Tmotor(){
-  analogWrite(TSpeedPin, abs(TmotorSpeed));
+  if(abs(TmotorSpeed) > 255){
+    analogWrite(TSpeedPin, 255);
+  }
+  else{
+    analogWrite(TSpeedPin, abs(TmotorSpeed));
+  }
   if(TmotorSpeed > 0){
     digitalWrite(TMotorDir1, LOW);
     digitalWrite(TMotorDir2, HIGH);
@@ -145,7 +153,12 @@ void Tmotor(){
  * 
  */
 void Lmotor(){
-  analogWrite(LSpeedPin, abs(LmotorSpeed));
+  if(abs(LmotorSpeed) > 255){
+    analogWrite(LSpeedPin, 255);
+  }
+  else{
+    analogWrite(LSpeedPin, abs(LmotorSpeed));
+  }
   if(LmotorSpeed > 0){
     digitalWrite(LMotorDir1, LOW);
     digitalWrite(LMotorDir2, HIGH);
@@ -165,7 +178,12 @@ void Lmotor(){
  * 
  */
 void Bmotor(){
-  analogWrite(BSpeedPin, abs(BmotorSpeed));
+  if(abs(BmotorSpeed) > 255){
+    analogWrite(BSpeedPin, 255);
+  }
+  else{
+    analogWrite(BSpeedPin, abs(BmotorSpeed));
+  }
   if(BmotorSpeed > 0){
     digitalWrite(BMotorDir1, HIGH);
     digitalWrite(BMotorDir2, LOW);
@@ -185,7 +203,12 @@ void Bmotor(){
  * 
  */
 void Rmotor(){
-  analogWrite(RSpeedPin, abs(RmotorSpeed));
+  if(abs(RmotorSpeed) > 255){
+    analogWrite(RSpeedPin, 255);
+  }
+  else{
+    analogWrite(RSpeedPin, abs(RmotorSpeed));
+  }
   if(RmotorSpeed > 0){
     digitalWrite(RMotorDir1, HIGH);
     digitalWrite(RMotorDir2, LOW);
