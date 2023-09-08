@@ -12,9 +12,13 @@
 #define BMotorDir1 12 // bottom motor
 #define BMotorDir2 13
 
-#define LxPin A0 // left joystick (controls translation)
-#define LyPin A1
+#define LxPin A0 // left joystick (controls horizontal translation)
+#define LyPin A1 // left joystick (controls vertical translation)
 #define RxPin A2 // right joystick (controls rotation)
+
+int LxVal;
+int LyVal;
+int RxVal;
 
 int bound = 100; //joystick deadzone
 
@@ -35,6 +39,18 @@ void loop() {
 
 }
 
-void vertical_Translation(int yl){
+void vertical_Translation(int ly){
+  
+}
+
+void horizontal_Translation(int ly){
+
+}
+
+void rotation(int rx){
+
+}
+
+void motorprint(){
   
 }
