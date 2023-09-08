@@ -72,7 +72,8 @@ void loop() {
  * @param ly Left joystick vertical value
  */
 void vertical_Translation(int ly){
-  
+  LmotorSpeed = ly*255/(511-100);
+  RmotorSpeed = ly*255/(511-100);
 }
 
 /**
@@ -81,7 +82,8 @@ void vertical_Translation(int ly){
  * @param lx Left joystick horizontal value
  */
 void horizontal_Translation(int lx){
-
+  TmotorSpeed = lx*255/(511-100);
+  BmotorSpeed = lx*255/(511-100);
 }
 
 /**
