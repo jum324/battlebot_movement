@@ -30,7 +30,29 @@ int BmotorSpeed;
 bool off = false;
 
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(LSpeedPin, OUTPUT);
+  pinMode(LMotorDir1, OUTPUT);
+  pinMode(LMotorDir2, OUTPUT);
+  
+  pinMode(RSpeedPin, OUTPUT);
+  pinMode(RMotorDir1, OUTPUT);
+  pinMode(RMotorDir2, OUTPUT);
+
+  pinMode(TSpeedPin, OUTPUT);
+  pinMode(TMotorDir1, OUTPUT);
+  pinMode(TMotorDir2, OUTPUT);
+
+  pinMode(BSpeedPin, OUTPUT);
+  pinMode(BMotorDir1, OUTPUT);
+  pinMode(BMotorDir2, OUTPUT);
+  
+  pinMode(LxPin, INPUT);
+  pinMode(LyPin, INPUT);
+  
+  pinMode(RxPin, INPUT);
+
+  Serial.begin(9600);
+
 
 }
 
@@ -52,5 +74,5 @@ void rotation(int rx){
 }
 
 void motorprint(){
-  
+
 }
