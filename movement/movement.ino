@@ -16,7 +16,7 @@
 #define LyPin A1 // left joystick (controls vertical translation)
 #define RxPin A2 // right joystick (controls rotation)
 
-int deadzone = 100; //joystick deadzone
+int deadzone = 50; //joystick deadzone
 
 int LxVal;
 int LyVal;
@@ -55,19 +55,33 @@ void setup() {
 }
 
 void loop() {
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  Serial.println();
   LxVal = analogRead(LxPin);    //reading joystick input
   LyVal = analogRead(LyPin);
   RxVal = analogRead(RxPin);
 
-  deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
-  deadzone_Remove(LyVal);
-  deadzone_Remove(RxVal);
+  LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
+  LyVal = deadzone_Remove(LyVal);
+  RxVal = deadzone_Remove(RxVal);
+
+  Serial.print("LxVal: ");
+  Serial.println(LxVal);
+  Serial.print("LyVal: ");
+  Serial.println(LyVal);
+  Serial.print("RxVal: ");
+  Serial.println(RxVal);
 
   vertical_Translation(LyVal);  //calculate motor speed
   horizontal_Translation(LxVal);
   rotation(RxVal);
-
+  
   motorprint();                 //adjust motor speed
+  delay(0);
 }
 
 /**
@@ -76,8 +90,8 @@ void loop() {
  * @param ly Left joystick vertical value
  */
 void vertical_Translation(int ly){
-  LmotorSpeed = ly*255/(511-deadzone);
-  RmotorSpeed = ly*255/(511-deadzone);
+  LmotorSpeed = map(ly, -(511-deadzone), 511-deadzone, -255, 255);
+  RmotorSpeed = map(ly, -(511-deadzone), 511-deadzone, -255, 255);
 }
 
 /**
@@ -86,8 +100,8 @@ void vertical_Translation(int ly){
  * @param lx Left joystick horizontal value
  */
 void horizontal_Translation(int lx){
-  TmotorSpeed = lx*255/(511-deadzone);
-  BmotorSpeed = lx*255/(511-deadzone);
+  TmotorSpeed = map(lx, -(511-deadzone), 511-deadzone, -255, 255);
+  BmotorSpeed = map(lx, -(511-deadzone), 511-deadzone, -255, 255);
 }
 
 /**
@@ -96,10 +110,10 @@ void horizontal_Translation(int lx){
  * @param rx Right joystickhorizontal value
  */
 void rotation(int rx){
-  TmotorSpeed += rx*255/(511-deadzone);
-  LmotorSpeed += rx*255/(511-deadzone);
-  BmotorSpeed -= rx*255/(511-deadzone);
-  RmotorSpeed -= rx*255/(511-deadzone);
+  TmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  LmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  BmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  RmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
 }
 
 void motorprint(){
@@ -122,7 +136,7 @@ void motorprint(){
  * 
  * @param val Joystick reading
  */
-void deadzone_Remove(int val){
+int deadzone_Remove(int val){
   val -= 512;
   if(val < -deadzone){
     val += deadzone;
@@ -133,6 +147,7 @@ void deadzone_Remove(int val){
   else{
     val = 0;
   }
+  return val;
 }
 
 /**
@@ -143,15 +158,19 @@ void deadzone_Remove(int val){
 void Tmotor(int speed){
   if(abs(speed) > 255){
     analogWrite(TSpeedPin, 255);
+    Serial.print("TmotorSpeed: ");
+    Serial.println(255);
   }
   else{
     analogWrite(TSpeedPin, abs(speed));
+    Serial.print("TmotorSpeed: ");
+    Serial.println(speed);
   }
-  if(speed > 0){
+  if(speed < 0){
     digitalWrite(TMotorDir1, LOW);
     digitalWrite(TMotorDir2, HIGH);
   }
-  else if(speed < 0){
+  else if(speed > 0){
     digitalWrite(TMotorDir1, HIGH);
     digitalWrite(TMotorDir2, LOW);
   }
@@ -169,9 +188,13 @@ void Tmotor(int speed){
 void Lmotor(int speed){
   if(abs(speed) > 255){
     analogWrite(LSpeedPin, 255);
+    Serial.print("LmotorSpeed: ");
+    Serial.println(255);
   }
   else{
     analogWrite(LSpeedPin, abs(speed));
+    Serial.print("LmotorSpeed: ");
+    Serial.println(speed);
   }
   if(speed > 0){
     digitalWrite(LMotorDir1, LOW);
@@ -195,15 +218,19 @@ void Lmotor(int speed){
 void Bmotor(int speed){
   if(abs(speed) > 255){
     analogWrite(BSpeedPin, 255);
+    Serial.print("BmotorSpeed: ");
+    Serial.println(255);
   }
   else{
     analogWrite(BSpeedPin, abs(speed));
+    Serial.print("BmotorSpeed: ");
+    Serial.println(speed);
   }
-  if(speed > 0){
+  if(speed < 0){
     digitalWrite(BMotorDir1, HIGH);
     digitalWrite(BMotorDir2, LOW);
   }
-  else if(speed < 0){
+  else if(speed > 0){
     digitalWrite(BMotorDir1, LOW);
     digitalWrite(BMotorDir2, HIGH);
   }
@@ -221,9 +248,13 @@ void Bmotor(int speed){
 void Rmotor(int speed){
   if(abs(speed) > 255){
     analogWrite(RSpeedPin, 255);
+    Serial.print("RmotorSpeed: ");
+    Serial.println(255);
   }
   else{
     analogWrite(RSpeedPin, abs(speed));
+    Serial.print("RmotorSpeed: ");
+    Serial.println(speed);
   }
   if(speed > 0){
     digitalWrite(RMotorDir1, HIGH);
