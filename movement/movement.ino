@@ -110,9 +110,9 @@ void horizontal_Translation(int lx){
  * @param rx Right joystickhorizontal value
  */
 void rotation(int rx){
-  TmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  TmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
   LmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
-  BmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  BmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
   RmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
 }
 
