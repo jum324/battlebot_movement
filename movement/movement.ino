@@ -68,14 +68,14 @@ void loop() {
   LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
   LyVal = deadzone_Remove(LyVal);
   RxVal = deadzone_Remove(RxVal);
-
+  /*
   Serial.print("LxVal: ");
   Serial.println(LxVal);
   Serial.print("LyVal: ");
   Serial.println(LyVal);
   Serial.print("RxVal: ");
   Serial.println(RxVal);
-
+  */
   vertical_Translation(LyVal);  //calculate motor speed
   horizontal_Translation(LxVal);
   rotation(RxVal);
@@ -166,13 +166,13 @@ void Tmotor(int speed){
     Serial.print("TmotorSpeed: ");
     Serial.println(speed);
   }
-  if(speed < 0){
-    digitalWrite(TMotorDir1, LOW);
-    digitalWrite(TMotorDir2, HIGH);
-  }
-  else if(speed > 0){
+  if(speed > 0){
     digitalWrite(TMotorDir1, HIGH);
     digitalWrite(TMotorDir2, LOW);
+  }
+  else if(speed < 0){
+    digitalWrite(TMotorDir1, LOW);
+    digitalWrite(TMotorDir2, HIGH);
   }
   else{
     digitalWrite(TMotorDir1, LOW);
@@ -226,13 +226,13 @@ void Bmotor(int speed){
     Serial.print("BmotorSpeed: ");
     Serial.println(speed);
   }
-  if(speed < 0){
-    digitalWrite(BMotorDir1, HIGH);
-    digitalWrite(BMotorDir2, LOW);
-  }
-  else if(speed > 0){
+  if(speed > 0){
     digitalWrite(BMotorDir1, LOW);
     digitalWrite(BMotorDir2, HIGH);
+  }
+  else if(speed < 0){
+    digitalWrite(BMotorDir1, HIGH);
+    digitalWrite(BMotorDir2, LOW);
   }
   else{
     digitalWrite(BMotorDir1, LOW);
