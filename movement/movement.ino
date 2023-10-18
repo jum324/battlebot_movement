@@ -15,6 +15,9 @@
 #define LxPin A0 // left joystick (controls horizontal translation)
 #define LyPin A1 // left joystick (controls vertical translation)
 #define RxPin A2 // right joystick (controls rotation)
+int input_min = 0;
+int input_max = 2000;
+int input_range = 2000;
 
 int deadzone = 50; //joystick deadzone
 
@@ -55,33 +58,30 @@ void setup() {
 }
 
 void loop() {
-  Serial.println();
-  Serial.println();
-  Serial.println();
-  Serial.println();
-  Serial.println();
-  Serial.println();
-  LxVal = analogRead(LxPin);    //reading joystick input
-  LyVal = analogRead(LyPin);
-  RxVal = analogRead(RxPin);
-
-  LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
-  LyVal = deadzone_Remove(LyVal);
-  RxVal = deadzone_Remove(RxVal);
-  /*
+//  LxVal = analogRead(LxPin);    //reading joystick input
+//  LyVal = analogRead(LyPin);
+//  RxVal = analogRead(RxPin);
+  LxVal = pulseIn(LxPin, HIGH);
+  LyVal = pulseIn(LyPin, HIGH);
+  RxVal = pulseIn(RxPin, HIGH);
+//
+//  LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
+//  LyVal = deadzone_Remove(LyVal);
+//  RxVal = deadzone_Remove(RxVal);
+//  /*
   Serial.print("LxVal: ");
   Serial.println(LxVal);
   Serial.print("LyVal: ");
   Serial.println(LyVal);
   Serial.print("RxVal: ");
   Serial.println(RxVal);
-  */
-  vertical_Translation(LyVal);  //calculate motor speed
-  horizontal_Translation(LxVal);
-  rotation(RxVal);
-  
-  motorprint();                 //adjust motor speed
-  delay(0);
+//  */
+//  vertical_Translation(LyVal);  //calculate motor speed
+//  horizontal_Translation(LxVal);
+//  rotation(RxVal);
+//  
+//  motorprint();                 //adjust motor speed
+  delay(100);
 }
 
 /**
@@ -90,8 +90,8 @@ void loop() {
  * @param ly Left joystick vertical value
  */
 void vertical_Translation(int ly){
-  LmotorSpeed = map(ly, -(511-deadzone), 511-deadzone, -255, 255);
-  RmotorSpeed = map(ly, -(511-deadzone), 511-deadzone, -255, 255);
+  LmotorSpeed = map(ly, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  RmotorSpeed = map(ly, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
 }
 
 /**
@@ -100,8 +100,8 @@ void vertical_Translation(int ly){
  * @param lx Left joystick horizontal value
  */
 void horizontal_Translation(int lx){
-  TmotorSpeed = map(lx, -(511-deadzone), 511-deadzone, -255, 255);
-  BmotorSpeed = map(lx, -(511-deadzone), 511-deadzone, -255, 255);
+  TmotorSpeed = map(lx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  BmotorSpeed = map(lx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
 }
 
 /**
@@ -110,10 +110,10 @@ void horizontal_Translation(int lx){
  * @param rx Right joystickhorizontal value
  */
 void rotation(int rx){
-  TmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
-  LmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
-  BmotorSpeed += map(rx, -(511-deadzone), 511-deadzone, -255, 255);
-  RmotorSpeed -= map(rx, -(511-deadzone), 511-deadzone, -255, 255);
+  TmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  LmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  BmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  RmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
 }
 
 void motorprint(){
@@ -137,7 +137,7 @@ void motorprint(){
  * @param val Joystick reading
  */
 int deadzone_Remove(int val){
-  val -= 512;
+  val -= input_range/2;
   if(val < -deadzone){
     val += deadzone;
   }
