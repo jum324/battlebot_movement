@@ -15,9 +15,9 @@
 #define LxPin A0 // left joystick (controls horizontal translation)
 #define LyPin A1 // left joystick (controls vertical translation)
 #define RxPin A2 // right joystick (controls rotation)
-int input_min = 0;
+int input_min = 1000;
 int input_max = 2000;
-int input_range = 2000;
+int input_range = input_max-input_min;
 
 int deadzone = 50; //joystick deadzone
 
@@ -64,24 +64,24 @@ void loop() {
   LxVal = pulseIn(LxPin, HIGH);
   LyVal = pulseIn(LyPin, HIGH);
   RxVal = pulseIn(RxPin, HIGH);
-//
-//  LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
-//  LyVal = deadzone_Remove(LyVal);
-//  RxVal = deadzone_Remove(RxVal);
-//  /*
-  Serial.print("LxVal: ");
-  Serial.println(LxVal);
-  Serial.print("LyVal: ");
-  Serial.println(LyVal);
-  Serial.print("RxVal: ");
-  Serial.println(RxVal);
-//  */
-//  vertical_Translation(LyVal);  //calculate motor speed
-//  horizontal_Translation(LxVal);
-//  rotation(RxVal);
-//  
-//  motorprint();                 //adjust motor speed
-  delay(100);
+
+  LxVal = deadzone_Remove(LxVal);       //convert joystick input range to [-512, 511] and then remove deadzone
+  LyVal = deadzone_Remove(LyVal);
+  RxVal = deadzone_Remove(RxVal);
+
+//  Serial.print("LxVal: ");
+//  Serial.println(LxVal);
+//  Serial.print("LyVal: ");
+//  Serial.println(LyVal);
+//  Serial.print("RxVal: ");
+//  Serial.println(RxVal);
+
+  vertical_Translation(LyVal);  //calculate motor speed
+  horizontal_Translation(LxVal);
+  rotation(RxVal);
+  
+  motorprint();                 //adjust motor speed
+  delay(0);
 }
 
 /**
@@ -111,9 +111,9 @@ void horizontal_Translation(int lx){
  */
 void rotation(int rx){
   TmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
-  LmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  LmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
   BmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
-  RmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
+  RmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -255, 255);
 }
 
 void motorprint(){
@@ -137,7 +137,13 @@ void motorprint(){
  * @param val Joystick reading
  */
 int deadzone_Remove(int val){
-  val -= input_range/2;
+  if(val < input_min){              //limit output
+    val = input_min;
+  }
+  else if(val > input_max){
+    val = input_max;
+  }
+  val = val - input_min - input_range/2;
   if(val < -deadzone){
     val += deadzone;
   }
@@ -196,11 +202,11 @@ void Lmotor(int speed){
     Serial.print("LmotorSpeed: ");
     Serial.println(speed);
   }
-  if(speed > 0){
+  if(speed < 0){
     digitalWrite(LMotorDir1, LOW);
     digitalWrite(LMotorDir2, HIGH);
   }
-  else if(speed < 0){
+  else if(speed > 0){
     digitalWrite(LMotorDir1, HIGH);
     digitalWrite(LMotorDir2, LOW);
   }
@@ -256,11 +262,11 @@ void Rmotor(int speed){
     Serial.print("RmotorSpeed: ");
     Serial.println(speed);
   }
-  if(speed > 0){
+  if(speed < 0){
     digitalWrite(RMotorDir1, HIGH);
     digitalWrite(RMotorDir2, LOW);
   }
-  else if(speed < 0){
+  else if(speed > 0){
     digitalWrite(RMotorDir1, LOW);
     digitalWrite(RMotorDir2, HIGH);
   }
