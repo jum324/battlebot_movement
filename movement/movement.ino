@@ -1,16 +1,16 @@
 // use Nano 33
-#define RSpeedPin 3
-#define RMotorDir1 2 // right motor
+#define RSpeedPin 2
+#define RMotorDir1 3 // right motor
 #define RMotorDir2 4
-#define LSpeedPin 5
-#define LMotorDir1 6 // left motor
-#define LMotorDir2 7
-#define TSpeedPin 9
-#define TMotorDir1 8 // top motor
-#define TMotorDir2 10
-#define BSpeedPin 11
-#define BMotorDir1 12 // bottom motor
-#define BMotorDir2 13
+#define LSpeedPin 7
+#define LMotorDir1 5 // left motor
+#define LMotorDir2 6
+#define BSpeedPin 8
+#define BMotorDir1 9 // bottom motor
+#define BMotorDir2 10
+#define TSpeedPin 13
+#define TMotorDir1 11 // top motor
+#define TMotorDir2 12
 
 #define LxPin A0 // left joystick (controls horizontal translation)
 #define LyPin A1 // left joystick (controls vertical translation)
