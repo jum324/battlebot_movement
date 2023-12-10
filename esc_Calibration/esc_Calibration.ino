@@ -1,7 +1,7 @@
 #include <Servo.h>
 
-byte servoPin 3;
-byte joystickPin A0;
+#define servoPin 3
+#define joystickPin A0
 Servo servo;
 
 void setup(){
@@ -13,6 +13,6 @@ void setup(){
 }
 
 void loop(){
-    int pwmVal = map(analogRead(joystickPin), 0, 1023, 1100, 1900);
+    int pwmVal = map(analogRead(joystickPin), 0, 1023, 1000, 2000);
     servo.writeMicroseconds(pwmVal);
 }
