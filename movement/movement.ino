@@ -164,6 +164,12 @@ int deadzone_Remove(int val){
  * @param speed motor speed
  */
 void Tmotor(int speed){
+  if(speed > output_max){
+    speed = output_max;
+  }
+  if(speed < output_min){
+    speed = output_min;
+  }
   speed = motorTFlip * Rev * (speed - (output_min+output_max)/2) + (output_min+output_max)/2;
   Serial.print("TmotorSpeed: ");
   Serial.println(speed);
@@ -176,6 +182,12 @@ void Tmotor(int speed){
  * @param speed motor speed
  */
 void Lmotor(int speed){
+  if(speed > output_max){
+    speed = output_max;
+  }
+  if(speed < output_min){
+    speed = output_min;
+  }
   speed = motorLFlip * Rev * (speed - (output_min+output_max)/2) + (output_min+output_max)/2;
   Serial.print("LmotorSpeed: ");
   Serial.println(speed);
@@ -188,6 +200,12 @@ void Lmotor(int speed){
  * @param speed motor speed
  */
 void Bmotor(int speed){
+  if(speed > output_max){
+    speed = output_max;
+  }
+  if(speed < output_min){
+    speed = output_min;
+  }
   speed = motorBFlip * Rev * (speed - (output_min+output_max)/2) + (output_min+output_max)/2;
   Serial.print("BmotorSpeed: ");
   Serial.println(speed);
@@ -200,6 +218,12 @@ void Bmotor(int speed){
  * @param speed motor speed
  */
 void Rmotor(int speed){
+  if(speed > output_max){
+    speed = output_max;
+  }
+  if(speed < output_min){
+    speed = output_min;
+  }
   speed = motorRFlip * Rev * (speed - (output_min+output_max)/2) + (output_min+output_max)/2;
   Serial.print("RmotorSpeed: ");
   Serial.println(speed);
