@@ -6,7 +6,7 @@
 #define motorTPin 10
 
 int motorRFlip = 1;     //use these params to flip motor direction
-int motorLFlip = 1;
+int motorLFlip = 1;     // -1 or 1
 int motorBFlip = 1;
 int motorTFlip = 1;
 
@@ -26,6 +26,7 @@ int input_range = input_max-input_min;
 
 int output_min = 1000;
 int output_max = 2000;
+int output_range = output_max-output_min;
 
 int deadzone = 25; //input deadzone
 
@@ -71,19 +72,19 @@ void loop() {
   LyVal = deadzone_Remove(LyVal);
   RxVal = deadzone_Remove(RxVal);
 
-//  Serial.print("LxVal: ");
-//  Serial.println(LxVal);
-//  Serial.print("LyVal: ");
-//  Serial.println(LyVal);
-//  Serial.print("RxVal: ");
-//  Serial.println(RxVal);
+  Serial.print("LxVal: ");
+  Serial.println(LxVal);
+  Serial.print("LyVal: ");
+  Serial.println(LyVal);
+  Serial.print("RxVal: ");
+  Serial.println(RxVal);
 
   vertical_Translation(LyVal);  //calculate motor speed
   horizontal_Translation(LxVal);
   rotation(RxVal);
   
   motorprint();                 //adjust motor speed
-  delay(0);
+  delay(250);
 }
 
 /**
@@ -112,10 +113,10 @@ void horizontal_Translation(int lx){
  * @param rx Right joystick horizontal value
  */
 void rotation(int rx){
-  TmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, output_min, output_max);
-  LmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, output_min, output_max);
-  BmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, output_min, output_max);
-  RmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, output_min, output_max);
+  TmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -output_range/2, output_range/2);
+  LmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -output_range/2, output_range/2);
+  BmotorSpeed -= map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -output_range/2, output_range/2);
+  RmotorSpeed += map(rx, -(input_range/2-deadzone), input_range/2-deadzone, -output_range/2, output_range/2);
 }
 
 void motorprint(){
